@@ -1,0 +1,66 @@
+{% extends 'navbar.html' %}
+
+{% block title_block %} {{user_other.username}} {% endblock %}
+
+{% block body_block %}
+  <div class="row">
+    <div class="col-sm-4">
+      {% if user_other.up_model_user.pro_pic %}
+        <img src="/media/{{user_other.up_model_user.pro_pic}}" width="100%" class="rounded-circle" style="border:3px solid green">
+      {% else %}
+        <img src="/media/demo_6.jpg" width="100%" class="rounded-circle" style="border:3px solid green">
+      {% endif %}
+    </div>
+    <div class="col-sm-2">
+
+    </div>
+    <div class="col-sm-6">
+      <h1>User Profile</h1>
+      <h2> < {{user_other.username}} > &nbsp;
+      {% if not already_followed %}
+        <a href="{% url 'App_Login:follow' username=user_other.username %}" class="btn btn-primary btn-sm">Follow</a></h2>
+      {% else %}
+        <a href="{% url 'App_Login:unfollow' username=user_other.username %}" class="btn btn-warning btn-sm">Unfollow</a></h2>
+      {% endif %}
+
+      <i><h5>{{user_other.author_post.count}} Posts &nbsp; {{user_other.follower_follow.count}} Following &nbsp; {{user_other.following_follow.count}} Follower</h5></i>
+      <hr style="border:1px solid green">
+      <br>
+      <h4> Name : {{user_other.up_model_user.full_name}}</h4>
+      <h4>Contact No : {{user_other.up_model_user.contact}}</h4>
+      <h4>BirthDate : {{user_other.up_model_user.dob}}</h4>
+      <h4> Website : {{user_other.up_model_user.website}}</h4>
+      <h4>Facebook Account : {{user_other.up_model_user.fb_acc}}</h4>
+    </div>
+  </div>
+  <hr style="border:1px solid black">
+  <br>
+
+
+  <div class="row">
+    <div class="col-sm-3"></div>
+    <div class="col-sm-6 post_pic">
+      {% for post in user_other.author_post.all %}
+        <div class="row">
+          <i><h6><a href="{% url 'App_Login:user_profile' %}">@{{post.author.username}}</a></h6></i>
+          <i><p>{{post.upload_date}}</p></i>
+        </div>
+
+        {% if post.caption %}
+          <div class="row">
+            <p>{{post.caption|linebreaks}}</p>
+          </div>
+        {% endif %}
+
+        {% if post.post_pic %}
+          <div class="row">
+            <img src="/media/{{post.post_pic}}" title="{{post.author}} Post" width="500px" height="650px">
+          </div>
+        {% endif %}
+
+        <hr style="border:1px solid green">
+      {% endfor %}
+    </div>
+    <div class="col-sm-3"></div>
+  </div>
+{% endblock %}

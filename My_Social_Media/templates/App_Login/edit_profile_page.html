@@ -1,0 +1,24 @@
+{% extends 'navbar.html' %}
+{% load crispy_forms_tags %}
+{% block css_block %}
+  <style>
+    .profile{
+      width: 550px;
+      border: 2px solid green;
+      padding: 40px;
+    }
+  </style>
+{% endblock %}
+
+{% block body_block %}
+  <center>
+    <div class = 'profile'>
+      <h1>Profile</h1>
+      <form enctype="multipart/form-data" method="post">
+        {{form|crispy}}
+        {% csrf_token %}
+        <button type="submit" class="btn btn-primary" style="width:100%">Update</button>
+      </form>
+    </div>
+  </center>
+{% endblock %}

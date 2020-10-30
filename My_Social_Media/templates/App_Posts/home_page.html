@@ -1,0 +1,82 @@
+{% extends 'navbar.html' %}
+
+
+{% block body_block %}
+<h1>Homepage</h1>
+{% if search %}
+  {% for user in results %}
+    <div class="row">
+      <div class="col-sm-2">
+        {% if user.up_model_user.pro_pic %}
+          <img src="/media/{{user.up_model_user.pro_pic}}" width="75px" heigth="75px">
+        {% else %}
+          <img src="/media/demo_6.jpg" width="75px" heigth="75px">
+        {% endif %}
+      </div>
+      <div class="col-sm-10">
+        <a href="{% url 'App_Login:other_user' username=user.username %}">{{user.username}}</a><br>
+        {{user.up_model_user.full_name}}
+      </div>
+    </div>
+    <br>
+  {% endfor %}
+<!-- Search End -->
+{% else %}
+<div class="row">
+  <div class="col-sm-8">
+      {% for post in posts %}
+      <div class="" style="border: 1px solid green;">
+        <div class="" style="padding:10px; background: #C0C0C0">
+          {% if post.author.up_model_user.pro_pic %}
+            <img src="/media/{{post.author.up_model_user.pro_pic}}" width="75px" heigth="75px" class="rounded-circle">
+          {% else %}
+            <img src="/media/demo_6.jpg" width="75px" heigth="75px" class="rounded-circle">
+          {% endif %}
+          <a href="{% url 'App_Login:other_user' username=post.author %}">@{{post.author}}</a>
+          <br>
+          <i>{{post.upload_date}}</i>
+        </div>
+
+        <br>
+        {% if post.caption %}
+          <div style="padding: 10px; border:1px solid green;">
+            {{post.caption|linebreaks}}
+          </div>
+        {% endif %}
+        {% if post.post_pic %}
+          <div style="padding: 10px; border:1px solid green;">
+            <img src="/media/{{post.post_pic}}" width = '100%'>
+          </div>
+        {% endif %}
+        <div style="padding: 10px; border:1px solid green;">
+          {% if post.pk in liked_posts_list %}
+          <a href="{% url 'App_Posts:unlike' pk=post.pk %}" class="fa fa-heart fa-2x" style="color:black;"></a>
+          {% else %}
+          <a href="{% url 'App_Posts:like' pk=post.pk %}" class="fa fa-heart fa-2x" style="color:red;"></a>
+          {% endif %}
+        </div>
+
+      </div>
+      <br>
+      <br>
+      {% endfor %}
+  </div>
+  <div class="col-sm-4">
+    <div class="row">
+      <div class="col-sm-4">
+        {% if user.up_model_user.pro_pic %}
+          <img src="/media/{{user.up_model_user.pro_pic}}" width="40px" heigth="40px">
+        {% else %}
+          <img src="/media/demo_6.jpg" width="40px" heigth="40px">
+        {% endif %}
+      </div>
+      <div class="col-sm-8">
+        {{user.username}}
+        <br>
+        {{user.up_model_user.full_name}}
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,104 @@
+{% extends 'navbar.html' %}
+
+{% block css_block %}
+<style>
+  .post_pic{
+    border: 2px solid green;
+    padding: 40px;
+    overflow: hidden
+  }
+  .crop{
+    width: 200px;
+    height: 200px;
+  }
+</style>
+
+{% endblock %}
+
+{% block body_block %}
+  <div class="row">
+    <div class="col-sm-4">
+      {% if user.up_model_user.pro_pic %}
+        <img src="/media/{{user.up_model_user.pro_pic}}" width="100%" class="rounded-circle" style="border:3px solid green">
+      {% else %}
+        <img src="/media/demo_6.jpg" width="100%" class="rounded-circle" style="border:3px solid green">
+      {% endif %}
+    </div>
+    <div class="col-sm-2">
+
+    </div>
+    <div class="col-sm-6">
+      <h1>User Profile</h1>
+      <h2> < {{user.username}} > &nbsp; <a href="{% url 'App_Login:edit_profile' %}" class="btn btn-warning btn-sm">Edit Profile</a></h2>
+      <i><h5>{{user.author_post.count}} Posts &nbsp; {{user.follower_follow.count}} Following &nbsp; {{user.following_follow.count}} Follower</h5></i>
+      <hr style="border:1px solid green">
+      <br>
+      <h4> Name : {{user.up_model_user.full_name}}</h4>
+      <h4>Contact No : {{user.up_model_user.contact}}</h4>
+      <h4>BirthDate : {{user.up_model_user.dob}}</h4>
+      <h4> Website : {{user.up_model_user.website}}</h4>
+      <h4>Facebook Account : {{user.up_model_user.fb_acc}}</h4>
+    </div>
+  </div>
+  <hr style="border:1px solid black">
+  <br>
+  <!-- Button to Open the Modal -->
+  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">New Post</button>
+  <!-- The Modal -->
+  <div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Post a Memory...</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+          <form enctype="multipart/form-data" method="POST">
+            {{form.as_p}}
+            {% csrf_token %}
+            <button type="submit"class="btn btn-success btn-sm">Post</button>
+          </form>
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <!-- Modal End -->
+  <!-- show Personal Posts -->
+  <div class="row">
+    <div class="col-sm-3"></div>
+    <div class="col-sm-6 post_pic">
+      {% for post in user.author_post.all %}
+        <div class="row">
+          <i><h6><a href="{% url 'App_Login:user_profile' %}">@{{post.author.username}}</a></h6></i>
+          <i><p>{{post.upload_date}}</p></i>
+        </div>
+
+        {% if post.caption %}
+          <div class="row">
+            <p>{{post.caption|linebreaks}}</p>
+          </div>
+        {% endif %}
+
+        {% if post.post_pic %}
+          <div class="row">
+            <img src="/media/{{post.post_pic}}" title="{{post.author}} Post" width="500px" height="650px">
+          </div>
+        {% endif %}
+
+        <hr style="border:1px solid green">
+      {% endfor %}
+    </div>
+    <div class="col-sm-3"></div>
+  </div>
+  <!-- Show Personal Posts End -->
+{% endblock %}

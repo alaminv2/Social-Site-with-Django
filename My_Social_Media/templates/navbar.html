@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <meta charset="utf-8">
+
+    <title>{% block title_block %} {{title}} {% endblock %}</title>
+
+    {% block css_block %}
+
+
+    {% endblock %}
+
+  </head>
+
+  <body>
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+    <ul class="navbar-nav">
+
+      <li class="nav-item active">
+        <a class="nav-link" href="{% url 'App_Posts:home' %}">Home</a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="{% url 'App_Login:logout' %}">Logout</a>
+      </li>
+      <li class="nav-item active">
+        {% if user.up_model_user.pro_pic %}
+          <a class="nav-link" href="{% url 'App_Login:user_profile' %}"><img src="/media/{{user.up_model_user.pro_pic}}" class="rounded-circle" width="30px" height="40px"></a>
+        {% else %}
+          <a class="nav-link" href="{% url 'App_Login:user_profile' %}"><img src="/media/demo_6.jpg"  class="rounded-circle" width="30px" height="40px"></a>
+        {% endif %}
+      </li>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <form class="form-inline" method="GET">
+        <input class="form-control mr-sm-2" type="text" name="search" placeholder="Search">
+        <button class="btn btn-success" type="submit">Search</button>
+      </form>
+
+    </ul>
+  </nav>
+
+  <div class="container" style="padding-top:20px">
+    {% block body_block %}
+
+    {% endblock %}
+  </div>
+
+  </body>
+</html>
